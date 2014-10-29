@@ -1,0 +1,33 @@
+version = '1.0'
+
+subprojects {
+    apply plugin: 'groovy'
+    apply plugin: 'maven-publish'
+
+    group = 'io.pivotal.gradle.eclipse.toolingapi'
+    version = '1.0'
+
+    publishing {
+        repositories {
+            maven {
+                url "$rootProject.projectDir/repo"
+            }
+        }
+
+        publications {
+            maven(MavenPublication) {
+                from components.java
+            }
+        }
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compile gradleApi()
+        compile 'org.codehaus.groovy:groovy-all:2.3.3'
+        testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
+    }
+}
