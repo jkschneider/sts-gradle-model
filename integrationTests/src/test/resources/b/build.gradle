@@ -5,5 +5,5 @@ repositories {
 }
 
 dependencies {
-    compile 'com.google.guava:guava:18.0'
+    compile 'org.springframework:spring-core:4.1.0.RELEASE'
 }

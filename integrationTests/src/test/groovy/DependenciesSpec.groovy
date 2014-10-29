@@ -7,7 +7,7 @@ class DependenciesSpec extends Specification {
     def 'all binary transitive dependencies are discovered'() {
         when:
         def connector = GradleConnector.newConnector()
-        connector.forProjectDirectory(new File(getClass().getResource('sample').toURI()))
+        connector.forProjectDirectory(new File(getClass().getResource('a').toURI()))
         def connection = connector.connect()
 
         ModelBuilder<Dependencies> customModelBuilder = connection.model(Dependencies.class)
@@ -15,6 +15,6 @@ class DependenciesSpec extends Specification {
         Dependencies model = customModelBuilder.get()
 
         then:
-        model.getClasspath().size() == 1
+        model.getClasspath().size() == 3
     }
 }

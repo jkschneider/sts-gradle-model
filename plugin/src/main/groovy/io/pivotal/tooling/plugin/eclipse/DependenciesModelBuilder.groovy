@@ -5,6 +5,7 @@ import io.pivotal.tooling.model.eclipse.Dependencies
 import io.pivotal.tooling.model.eclipse.DefaultExternalDependency
 import org.gradle.api.Project
 import org.gradle.api.artifacts.result.ResolvedDependencyResult
+import org.gradle.api.internal.artifacts.component.DefaultModuleComponentSelector
 import org.gradle.api.specs.Specs
 import org.gradle.language.base.artifact.SourcesArtifact
 import org.gradle.language.java.artifact.JavadocArtifact
@@ -24,7 +25,7 @@ class DependenciesModelBuilder implements ToolingModelBuilder {
         def externalDependenciesById = [:]
 
         def binaryDependencies = project.configurations.compile.incoming.resolutionResult.allDependencies.inject([]) { mods, dep ->
-            if(dep instanceof ResolvedDependencyResult)
+            if(dep instanceof ResolvedDependencyResult && dep.requested instanceof DefaultModuleComponentSelector)
                 mods += dep.selected.id
             return mods
         }
