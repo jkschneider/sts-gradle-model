@@ -2,9 +2,9 @@ package io.pivotal.tooling.plugin.eclipse
 
 import io.pivotal.tooling.model.eclipse.DefaultDependencies
 import io.pivotal.tooling.model.eclipse.Dependencies
-import io.pivotal.tooling.model.eclipse.ExternalDependency
+import io.pivotal.tooling.model.eclipse.DefaultExternalDependency
 import org.gradle.api.Project
-import org.gradle.api.internal.artifacts.component.DefaultModuleComponentSelector
+import org.gradle.api.artifacts.result.ResolvedDependencyResult
 import org.gradle.api.specs.Specs
 import org.gradle.language.base.artifact.SourcesArtifact
 import org.gradle.language.java.artifact.JavadocArtifact
@@ -24,7 +24,7 @@ class DependenciesModelBuilder implements ToolingModelBuilder {
         def externalDependenciesById = [:]
 
         def binaryDependencies = project.configurations.compile.incoming.resolutionResult.allDependencies.inject([]) { mods, dep ->
-            if(dep.requested instanceof DefaultModuleComponentSelector)
+            if(dep instanceof ResolvedDependencyResult)
                 mods += dep.selected.id
             return mods
         }
@@ -41,7 +41,7 @@ class DependenciesModelBuilder implements ToolingModelBuilder {
         project.configurations.compile.resolvedConfiguration.lenientConfiguration.getArtifacts(Specs.SATISFIES_ALL).each {
             def id = it.moduleVersion.id.toString()
             if(binaryDependenciesAsStrings.contains(id))
-                externalDependenciesById[id] = new ExternalDependency(it.file)
+                externalDependenciesById[id] = new DefaultExternalDependency(it.file)
         }
 
         binaryComponents.each { binaryDependency ->
@@ -58,6 +58,6 @@ class DependenciesModelBuilder implements ToolingModelBuilder {
             }
         }
 
-        return new DefaultDependencies(externalDependenciesById.values())
+        return new DefaultDependencies(new ArrayList(externalDependenciesById.values()))
     }
 }

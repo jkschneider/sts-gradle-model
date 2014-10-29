@@ -15,6 +15,6 @@ class DependenciesSpec extends Specification {
         Dependencies model = customModelBuilder.get()
 
         then:
-        model.foo()
+        model.getClasspath().size() == 1
     }
 }

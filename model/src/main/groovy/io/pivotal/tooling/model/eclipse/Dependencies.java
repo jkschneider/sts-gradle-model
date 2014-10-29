@@ -1,7 +1,6 @@
 package io.pivotal.tooling.model.eclipse;
 
-import org.gradle.tooling.model.DomainObjectSet;
-import org.gradle.tooling.model.ExternalDependency;
+import java.util.Collection;
 
 public interface Dependencies {
     /**
@@ -9,5 +8,5 @@ public interface Dependencies {
      * The set includes ALL binary transitive dependencies, including those that are derived from
      * project dependencies.
      */
-    DomainObjectSet<? extends ExternalDependency> getClasspath();
+    Collection<ExternalDependency> getClasspath();
 }

@@ -4,7 +4,7 @@ import groovy.transform.Canonical
 import org.gradle.tooling.model.GradleModuleVersion
 
 @Canonical
-class ExternalDependency {
+class DefaultExternalDependency implements Serializable {
     File file
     File sourceFile
     File javadocFile
