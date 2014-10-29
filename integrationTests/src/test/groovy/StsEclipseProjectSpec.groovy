@@ -12,6 +12,7 @@ class StsEclipseProjectSpec extends Specification {
 
         ModelBuilder<StsEclipseProject> customModelBuilder = connection.model(StsEclipseProject.class)
         customModelBuilder.withArguments("--init-script", new File(getClass().getResource('init.gradle').toURI()).absolutePath)
+        customModelBuilder.setJvmArguments("-Dorg.springsource.ide.eclipse.gradle.toolingApiRepo=" + new File('repo').toURI().toURL())
         StsEclipseProject model = customModelBuilder.get()
 
         then:

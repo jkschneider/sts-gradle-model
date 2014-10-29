@@ -67,6 +67,12 @@ class StsEclipseProjectModelBuilder implements ToolingModelBuilder {
             }
         }
 
+        project.configurations.create('projectReferences') {
+
+        }
+
+        project.configurations.projectReferences.resolvedConfiguration.lenientConfiguration.
+
         binaryComponents.each { binaryDependency ->
             def externalDependency = externalDependenciesById[binaryDependency.id.toString()]
 

@@ -1,10 +1,12 @@
 package io.pivotal.tooling.model.eclipse;
 
+import org.gradle.api.artifacts.ProjectDependency;
 import org.gradle.tooling.model.ExternalDependency;
 import org.gradle.tooling.model.GradleProject;
 import org.gradle.tooling.model.eclipse.HierarchicalEclipseProject;
 
 import java.util.Collection;
+import java.util.Map;
 
 public interface StsEclipseProject extends HierarchicalEclipseProject {
     /**
@@ -23,4 +25,6 @@ public interface StsEclipseProject extends HierarchicalEclipseProject {
      * project dependencies.
      */
     Collection<ExternalDependency> getClasspath();
+
+    Map<ProjectDependency, ExternalDependency> getExternalEquivalents(String versionMatcher);
 }
