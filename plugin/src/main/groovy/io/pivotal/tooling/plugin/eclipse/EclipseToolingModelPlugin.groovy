@@ -16,6 +16,6 @@ class EclipseToolingModelPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
-        registry.register(new DependenciesModelBuilder(project: project))
+        registry.register(new StsEclipseProjectModelBuilder())
     }
 }

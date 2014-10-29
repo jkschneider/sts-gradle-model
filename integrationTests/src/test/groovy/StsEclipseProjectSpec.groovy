@@ -1,20 +1,22 @@
-import io.pivotal.tooling.model.eclipse.Dependencies
+import io.pivotal.tooling.model.eclipse.StsEclipseProject
 import org.gradle.tooling.GradleConnector
 import org.gradle.tooling.ModelBuilder
 import spock.lang.Specification
 
-class DependenciesSpec extends Specification {
+class StsEclipseProjectSpec extends Specification {
     def 'all binary transitive dependencies are discovered'() {
         when:
         def connector = GradleConnector.newConnector()
         connector.forProjectDirectory(new File(getClass().getResource('a').toURI()))
         def connection = connector.connect()
 
-        ModelBuilder<Dependencies> customModelBuilder = connection.model(Dependencies.class)
+        ModelBuilder<StsEclipseProject> customModelBuilder = connection.model(StsEclipseProject.class)
         customModelBuilder.withArguments("--init-script", new File(getClass().getResource('init.gradle').toURI()).absolutePath)
-        Dependencies model = customModelBuilder.get()
+        StsEclipseProject model = customModelBuilder.get()
 
         then:
-        model.getClasspath().size() == 3
+        model.classpath.size() == 3
+        model.classpath.collect { it.gradleModuleVersion.name }.sort() == ['commons-logging', 'guava', 'spring-core']
+        model.gradleProject.name == 'a'
     }
 }
